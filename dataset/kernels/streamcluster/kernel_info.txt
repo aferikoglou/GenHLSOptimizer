@@ -1,4 +1,7 @@
 workload
+L1,loop,256
+L2,loop,200
+L3,loop,256
 L4,array,buffer_target,1,200
 L5,array,buffer_center_table,1,1024
 L6,array,buffer_work_mem,1,1024
@@ -13,7 +16,4 @@ L14,array,buffer_assign_2,1,256
 L15,array,buffer_cost_2,1,256
 L16,array,buffer_weight_2,1,256
 L17,array,buffer_coord_2,1,51200
-L1,loop,256
-L2,loop,200
-L3,loop,256
 L18,loop,1280

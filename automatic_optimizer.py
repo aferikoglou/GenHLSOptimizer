@@ -341,7 +341,7 @@ termination = MultiObjectiveDefaultTermination(
 	f_tol=0.0025,
 	nth_gen=1,
 	n_last=10,
-	n_max_gen=24,
+	n_max_gen=2,
 	n_max_evals=5000
 )
 

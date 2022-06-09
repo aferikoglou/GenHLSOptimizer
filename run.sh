@@ -16,3 +16,7 @@ DB_NAME=$APP
 
 python3 automatic_optimizer.py --INPUT_SOURCE_PATH $INPUT_SOURCE_PATH --INPUT_SOURCE_INFO_PATH $INPUT_SOURCE_INFO_PATH --DB_NAME $DB_NAME
 
+rm -r GENETIC_DSE_*
+rm vitis_*.log
+rm script_*.tcl
+rm kernel_*.cpp
