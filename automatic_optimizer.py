@@ -81,7 +81,7 @@ parser.add_argument('--INPUT_SOURCE_INFO_PATH', type=str, required=True, help='T
 parser.add_argument('--DB_NAME', type=str, required=True, help='The name of the used database.')
 parser.add_argument('--DEVICE_ID', type=str, default="xczu7ev-ffvc1156-2-e", help='The target FPGA device id. (default: MPSoC ZCU104)')
 parser.add_argument('--CLK_PERIOD', type=str, default="3.33", help='The target FPGA clock period.')
-parser.add_argument('--OPERATOR_CONFIG_PATH', type=str, default="./operator_config/config.json", help='The path to the JSON file that contains the genetic algorithm operator configuration.')
+parser.add_argument('--OPERATOR_CONFIG_PATH', type=str, default="./operator_config/config_01.json", help='The path to the JSON file that contains the genetic algorithm operator configuration.')
 
 args = parser.parse_args()
 

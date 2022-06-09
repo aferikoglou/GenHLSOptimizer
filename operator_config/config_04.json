@@ -1,0 +1,1 @@
+{"sampling": "int_random", "selection": "random", "crossover": "int_exp", "mutation": "int_pm"}
