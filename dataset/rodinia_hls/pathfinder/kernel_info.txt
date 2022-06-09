@@ -1,0 +1,14 @@
+workload
+L4,array,J_buf1,1,16384
+L5,array,J_buf2,1,16384
+L6,array,Jout_buf1,1,512
+L7,array,Jout_buf2,1,512
+L8,array,Jout_buf3,1,512
+L9,array,Jout_buf4,1,512
+L10,array,Jtemp,1,4096
+L1,loop,16
+L2,loop,512
+L3,loop,512
+L11,loop,256
+L12,loop,64
+L13,loop,512

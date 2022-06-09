@@ -1,0 +1,9 @@
+workload
+L3,array,result_inner,1,65536
+L4,array,imgvf_inner,1,67584
+L5,array,I_inner,1,65536
+L1,loop,64
+L2,loop,1024
+L6,loop,32
+L7,loop,16
+L8,loop,16
