@@ -79,6 +79,8 @@ parser = argparse.ArgumentParser(description='A script for optimizing high level
 parser.add_argument('--INPUT_SOURCE_PATH', type=str, required=True, help='The path to the kernel source code that is going to be optimized.')
 parser.add_argument('--INPUT_SOURCE_INFO_PATH', type=str, required=True, help='The path to the kernel source code information.')
 parser.add_argument('--DB_NAME', type=str, required=True, help='The name of the used database.')
+parser.add_argument('--GENERATIONS', type=int, default=24, help='The number of GA generations.')
+parser.add_argument('--THREADS', type=int, default=40, help='The number of used threads.')
 parser.add_argument('--DEVICE_ID', type=str, default="xczu7ev-ffvc1156-2-e", help='The target FPGA device id. (default: MPSoC ZCU104)')
 parser.add_argument('--CLK_PERIOD', type=str, default="3.33", help='The target FPGA clock period.')
 parser.add_argument('--OPERATOR_CONFIG_PATH', type=str, default="./operator_config/config_01.json", help='The path to the JSON file that contains the genetic algorithm operator configuration.')
@@ -89,6 +91,8 @@ INPUT_SOURCE_PATH = args.INPUT_SOURCE_PATH
 INPUT_SOURCE_INFO_PATH = args.INPUT_SOURCE_INFO_PATH
 DB_NAME = args.DB_NAME
 
+generations = args.GENERATIONS
+thread_num = args.THREADS
 device_id = args.DEVICE_ID
 clock_period = args.CLK_PERIOD
 OPERATOR_CONFIG_PATH = args.OPERATOR_CONFIG_PATH
@@ -311,7 +315,7 @@ class HLSDirectiveOptimizationProblem(ElementwiseProblem):
 # Problem definition #
 ######################
 
-n_threads = 40
+n_threads = thread_num
 pool = ThreadPool(n_threads)
 problem = HLSDirectiveOptimizationProblem(runner=pool.starmap, func_eval=starmap_parallelized_eval)
 
@@ -341,7 +345,7 @@ termination = MultiObjectiveDefaultTermination(
 	f_tol=0.0025,
 	nth_gen=1,
 	n_last=10,
-	n_max_gen=2,
+	n_max_gen=generations,
 	n_max_evals=5000
 )
 
