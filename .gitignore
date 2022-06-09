@@ -1,7 +1,7 @@
-*.cpp
-*.c
-*.h
-*.tcl
-*.log
+./*.cpp
+./*.c
+./*.h
+./*.tcl
+./*.log
 optimized
 GENETIC_DSE_*
