@@ -81,6 +81,7 @@ parser.add_argument('--INPUT_SOURCE_INFO_PATH', type=str, required=True, help='T
 parser.add_argument('--DB_NAME', type=str, required=True, help='The name of the used database.')
 parser.add_argument('--GENERATIONS', type=int, default=24, help='The number of GA generations.')
 parser.add_argument('--THREADS', type=int, default=40, help='The number of used threads.')
+parser.add_argument('--TIMEOUT', type=int, default=3600, help='Vitis HLS timeout in seconds.')
 parser.add_argument('--DEVICE_ID', type=str, default="xczu7ev-ffvc1156-2-e", help='The target FPGA device id. (default: MPSoC ZCU104)')
 parser.add_argument('--CLK_PERIOD', type=str, default="3.33", help='The target FPGA clock period.')
 parser.add_argument('--OPERATOR_CONFIG_PATH', type=str, default="./operator_config/config_01.json", help='The path to the JSON file that contains the genetic algorithm operator configuration.')
@@ -91,6 +92,7 @@ INPUT_SOURCE_PATH = args.INPUT_SOURCE_PATH
 INPUT_SOURCE_INFO_PATH = args.INPUT_SOURCE_INFO_PATH
 DB_NAME = args.DB_NAME
 
+timeout = args.TIMEOUT
 generations = args.GENERATIONS
 thread_num = args.THREADS
 device_id = args.DEVICE_ID
@@ -105,6 +107,7 @@ preprocessor = Preprocessor(INPUT_SOURCE_INFO_PATH)
 
 DB_PATH = os.path.join("./databases", DB_NAME + ".sqlite")
 db = DB(DB_PATH)
+db.print()
 
 (xl, xu) = get_var_domains(directives)
 
@@ -196,7 +199,7 @@ class HLSDirectiveOptimizationProblem(ElementwiseProblem):
 		finished = False
 		while (True):
 			total_time = int(time.time()) - start_time
-			if(total_time >= 3600 or p.poll() != None):
+			if(total_time >= timeout or p.poll() != None):
 				if(p.poll() != None):
 					finished = True
 					print("Finished !")		
