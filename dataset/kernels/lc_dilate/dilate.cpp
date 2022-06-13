@@ -21,11 +21,7 @@ L2:	        for (int j = 0; j < STREL_COLS; j++) {
 			float img [(TILE_ROWS + 2 * MAX_RADIUS) * (TILE_COLS + 2 * MAX_RADIUS)], int which_boundary)
 	{
 
-L3:	    bool strel[25] = { 0, 0, 1, 0, 0,
-	                       0, 1, 1, 1, 0,
-	                       1, 1, 1, 1, 1,
-	                       0, 1, 1, 1, 0,
-	                       0, 0, 1, 0, 0 };
+L3:	    bool strel[25] = { 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0 };
 
 	    int radius_p = STREL_ROWS / 2;
 

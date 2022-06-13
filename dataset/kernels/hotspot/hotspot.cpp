@@ -21,7 +21,12 @@ float hotspot_stencil_core(float temp_top, float temp_left, float temp_right, fl
 void hotspot(float result[TILE_ROWS * GRID_COLS], float temp[(TILE_ROWS + 2) * GRID_COLS], float power[TILE_ROWS * GRID_COLS], float Cap_1, float Rx_1, float Ry_1, float Rz_1, int which_boundary) {
     float delta;
     int c, r, i, j, k, ii;
-L6:L5:L4:L3:L2:L1:    float temp_top[PARA_FACTOR], temp_left[PARA_FACTOR], temp_right[PARA_FACTOR], temp_bottom[PARA_FACTOR], temp_center[PARA_FACTOR], power_center[PARA_FACTOR];
+L1:	float temp_top[PARA_FACTOR];
+L2:	float temp_left[PARA_FACTOR]; 
+L3:	float temp_right[PARA_FACTOR];
+L4:	float temp_bottom[PARA_FACTOR];
+L5:	float temp_center[PARA_FACTOR];
+L6:	float power_center[PARA_FACTOR];
 
 L7:    float temp_rf [PARA_FACTOR][GRID_COLS * 2 / PARA_FACTOR + 1];
 
