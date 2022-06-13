@@ -3,5 +3,6 @@
 ./*.h
 ./*.tcl
 ./*.log
+*.pyc
 optimized
 GENETIC_DSE_*
