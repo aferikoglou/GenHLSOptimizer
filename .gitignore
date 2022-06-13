@@ -3,6 +3,6 @@
 ./*.h
 ./*.tcl
 ./*.log
-*.pyc
+./modules/__pycache__
 optimized
 GENETIC_DSE_*
