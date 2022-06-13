@@ -107,7 +107,7 @@ preprocessor = Preprocessor(INPUT_SOURCE_INFO_PATH)
 
 DB_PATH = os.path.join("./databases", DB_NAME + ".sqlite")
 db = DB(DB_PATH)
-db.print()
+# db.print()
 
 (xl, xu) = get_var_domains(directives)
 
