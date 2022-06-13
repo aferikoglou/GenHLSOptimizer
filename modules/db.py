@@ -2,6 +2,7 @@ from sqlitedict import SqliteDict
 
 class DB():
 	def __init__(self, db_name):
+		self.db_name = db_name
 		self.db = SqliteDict(db_name)
 
 	def get(self, x):
@@ -25,7 +26,52 @@ class DB():
 
 	def print(self):
 		for key, item in self.db.items():
-			print("%s = %s" % (key, item))		
+			print("%s = %s" % (key, item))
+
+	def analyze(self, timeout):
+		synth_total = 0
+		synth_timeout = 0
+		synth_failed = 0
+		synth_success = 0
+		for key, item in self.db.items():
+			latency    = item["latency"]
+			util_bram  = item["util_bram"]
+			util_dsp   = item["util_dsp"]
+			util_ff    = item["util_ff"]
+			util_lut   = item["util_lut"]
+			util_uram  = item["util_uram"]
+			synth_time = item["synth_time"]
+
+			if (latency == 0 and util_bram == 101 and util_dsp == 101 and util_ff == 101 and util_lut == 101 and util_uram == 101):
+				if (synth_time >= timeout):
+					synth_timeout += 1
+				else:
+					synth_failed += 1
+			else:
+				synth_success +=1
+						
+			synth_total += 1
+
+		# print(synth_total)
+		# print(synth_timeout)
+		# print(synth_failed)
+		# print(synth_success)
+
+		synth_timeout_perc = (float(synth_timeout) / synth_total) * 100
+		synth_failed_perc = (float(synth_failed) / synth_total) * 100
+		synth_success_perc = (float(synth_success) / synth_total) * 100
+
+		print("#####")
+		print("Database Analytics")
+		print("")
+		print("Database path=%s" % self.db_name)
+		print("")
+		print("#synthesis total=%s" % synth_total)
+		print("Synthesis timeout percentage=%f (%s)" % (synth_timeout_perc, synth_timeout))
+		print("Synthesis timeout failed=%f (%s)" % (synth_failed_perc, synth_failed))
+		print("Synthesis timeout success=%f (%s)" % (synth_success_perc, synth_success))
+		print("#####")
+		
 
 	def close(self):
 		self.db.close()
