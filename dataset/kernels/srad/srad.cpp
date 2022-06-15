@@ -38,30 +38,27 @@ void srad_kernel2(float J[(TILE_ROWS+3)*COLS], float Jout[TILE_ROWS*COLS], float
 
   float cN, cS, cW, cE, D;
 
-  float J_top[PARA_FACTOR], J_left[PARA_FACTOR], J_right[PARA_FACTOR], J_bottom[PARA_FACTOR], J_center[PARA_FACTOR], c_tmp[PARA_FACTOR];
+L1:  float J_top[PARA_FACTOR];
+L2:  float J_left[PARA_FACTOR];
+L3:  float J_right[PARA_FACTOR];
+L4:  float J_bottom[PARA_FACTOR];
+L5:  float J_center[PARA_FACTOR];
+L6:  float c_tmp[PARA_FACTOR];
 
-  float J_rf[PARA_FACTOR][COLS * 2 / PARA_FACTOR + 1];
-  #pragma HLS array_partition variable=J_rf complete dim=0
+L7:  float J_rf[PARA_FACTOR][COLS * 2 / PARA_FACTOR + 1];
 
-  float dN[(TILE_ROWS+1)*COLS];
-  #pragma HLS array_partition variable=dN cyclic factor=32
+L8:  float dN[(TILE_ROWS+1)*COLS];
+ 
+L9:  float dS[(TILE_ROWS+1)*COLS];
   
-  float dS[(TILE_ROWS+1)*COLS];
-  #pragma HLS array_partition variable=dS cyclic factor=32
+L10:  float dW[(TILE_ROWS+1)*COLS];
   
-  float dW[(TILE_ROWS+1)*COLS];
-  #pragma HLS array_partition variable=dW cyclic factor=32
+L11:  float dE[(TILE_ROWS+1)*COLS];
   
-  float dE[(TILE_ROWS+1)*COLS];
-  #pragma HLS array_partition variable=dE cyclic factor=32
+L12:  float c[(TILE_ROWS+1)*COLS];
   
-  float c[(TILE_ROWS+1)*COLS];
-  #pragma HLS array_partition variable=c cyclic factor=32
-  
-  MAIN_KERNEL1: for (i = -2*COLS/PARA_FACTOR-1; i < COLS / PARA_FACTOR * (TILE_ROWS+1); i++) {
-    #pragma HLS pipeline II=1
-    for (k = 0; k < PARA_FACTOR; k++) {
-      #pragma HLS unroll
+L13:  for (i = -2*COLS/PARA_FACTOR-1; i < COLS / PARA_FACTOR * (TILE_ROWS+1); i++) {
+L14:    for (k = 0; k < PARA_FACTOR; k++) {
       //read from line buffer, handle borders as well
       J_center[k]  = J_rf[k][COLS / PARA_FACTOR];
       J_top[k]     = (tile == TOP_TILE && i < COLS / PARA_FACTOR) ? J_center[k] : J_rf[k][0];
@@ -96,25 +93,22 @@ void srad_kernel2(float J[(TILE_ROWS+3)*COLS], float Jout[TILE_ROWS*COLS], float
     }
 
     //shift the line buffer one by one
-    for (k = 0; k < PARA_FACTOR; k++) {
-      #pragma HLS unroll
-      for (j = 0; j < COLS * 2 / PARA_FACTOR; j++) {
-        #pragma HLS unroll
+L15:    for (k = 0; k < PARA_FACTOR; k++) {
+L16:      for (j = 0; j < COLS * 2 / PARA_FACTOR; j++) {
         J_rf[k][j] = J_rf[k][j + 1];
       }
       J_rf[k][COLS * 2 / PARA_FACTOR] = J[2*COLS + (i + 1) * PARA_FACTOR + k];
     }
   }
 
-  float c_right[PARA_FACTOR], c_bottom[PARA_FACTOR], c_center[PARA_FACTOR];
+L19:  float c_right[PARA_FACTOR];
+L18:  float c_bottom[PARA_FACTOR];
+L17:  float c_center[PARA_FACTOR];
 
-  float c_rf[PARA_FACTOR][COLS / PARA_FACTOR + 1];
-  #pragma HLS array_partition variable=c_rf complete dim=0
+L20:  float c_rf[PARA_FACTOR][COLS / PARA_FACTOR + 1];
   
-  MAIN_KERNEL2: for (i = -COLS/PARA_FACTOR-1; i < COLS / PARA_FACTOR * TILE_ROWS; i++) {
-    #pragma HLS pipeline II=1
-    for (k = 0; k < PARA_FACTOR; k++) {
-      #pragma HLS unroll
+L21:  for (i = -COLS/PARA_FACTOR-1; i < COLS / PARA_FACTOR * TILE_ROWS; i++) {
+L22:    for (k = 0; k < PARA_FACTOR; k++) {
       //read from line buffer, handle borders as well
       c_center[k]  = c_rf[k][0];
 
@@ -131,10 +125,8 @@ void srad_kernel2(float J[(TILE_ROWS+3)*COLS], float Jout[TILE_ROWS*COLS], float
     }
 
     //shift the line buffer one by one
-    for (k = 0; k < PARA_FACTOR; k++) {
-      #pragma HLS unroll
-      for (j = 0; j < COLS / PARA_FACTOR; j++) {
-        #pragma HLS unroll
+L23:    for (k = 0; k < PARA_FACTOR; k++) {
+L24:      for (j = 0; j < COLS / PARA_FACTOR; j++) {
         c_rf[k][j] = c_rf[k][j + 1];
       }
       c_rf[k][COLS / PARA_FACTOR] = c[COLS + (i + 1) * PARA_FACTOR + k];
@@ -170,30 +162,24 @@ extern "C" {
 #pragma HLS INTERFACE s_axilite port=Jout bundle=control
 #pragma HLS INTERFACE s_axilite port=return bundle=control
 
-    float J_buf_0[(TILE_ROWS+3)*COLS];
+L25:    float J_buf_0[(TILE_ROWS+3)*COLS];
     //assume C2-C1 > PARA_FACTOR and (C2-C1)%PARA_FACTOR == 0
-#pragma HLS array_partition variable=J_buf_0 cyclic factor=32  
-    float Jout_buf_0[TILE_ROWS*COLS];
-#pragma HLS array_partition variable=Jout_buf_0 cyclic factor=32
+L26:    float Jout_buf_0[TILE_ROWS*COLS];
 
-    float J_buf_1[(TILE_ROWS+3)*COLS];
-#pragma HLS array_partition variable=J_buf_1 cyclic factor=32  
-    float Jout_buf_1[TILE_ROWS*COLS];
-#pragma HLS array_partition variable=Jout_buf_1 cyclic factor=32
+L27:    float J_buf_1[(TILE_ROWS+3)*COLS];
+L28:    float Jout_buf_1[TILE_ROWS*COLS];
   
-    float J_buf_2[(TILE_ROWS+3)*COLS];
-#pragma HLS array_partition variable=J_buf_2 cyclic factor=32  
-    float Jout_buf_2[TILE_ROWS*COLS];
-#pragma HLS array_partition variable=Jout_buf_2 cyclic factor=32
+L29:    float J_buf_2[(TILE_ROWS+3)*COLS];
+L30:    float Jout_buf_2[TILE_ROWS*COLS];
   
     int iter, t=0;
     float v0sqr = 0.0870038941502571;
     //assume NITER%2 == 0
-  ITER_LOOP: for (iter=0; iter<NITER/2; iter++){
+L31:  for (iter=0; iter<NITER/2; iter++){
       //srad_kernel1(J, &v0sqr);
       //printf("*********v0sqr = %.16f\n", v0sqr);
       //assume ROWS%TILE_ROWS == 0
-    TILE_LOOP1: for (t = 0; t < ROWS/TILE_ROWS + 2; t++) {
+L32:    for (t = 0; t < ROWS/TILE_ROWS + 2; t++) {
     	int load_flag = t >= 0 && t < ROWS / TILE_ROWS;
     	int compute_flag = t >= 1 && t < ROWS / TILE_ROWS + 1;
     	int store_flag = t >= 2 && t < ROWS / TILE_ROWS + 2;
@@ -215,7 +201,7 @@ extern "C" {
     }
 
       //srad_kernel1(Jout, &v0sqr);
-    TILE_LOOP2: for (t = 0; t < ROWS/TILE_ROWS + 2; t++) {
+L33:    for (t = 0; t < ROWS/TILE_ROWS + 2; t++) {
     	int load_flag = t >= 0 && t < ROWS / TILE_ROWS;
     	int compute_flag = t >= 1 && t < ROWS / TILE_ROWS + 1;
     	int store_flag = t >= 2 && t < ROWS / TILE_ROWS + 2;
@@ -239,4 +225,3 @@ extern "C" {
   }
   
 }
-
