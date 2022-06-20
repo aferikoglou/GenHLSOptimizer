@@ -101,9 +101,9 @@ L16:      for (j = 0; j < COLS * 2 / PARA_FACTOR; j++) {
     }
   }
 
-L19:  float c_right[PARA_FACTOR];
+L17:  float c_right[PARA_FACTOR];
 L18:  float c_bottom[PARA_FACTOR];
-L17:  float c_center[PARA_FACTOR];
+L19:  float c_center[PARA_FACTOR];
 
 L20:  float c_rf[PARA_FACTOR][COLS / PARA_FACTOR + 1];
   

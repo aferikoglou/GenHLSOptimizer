@@ -5,4 +5,5 @@
 ./*.log
 ./modules/__pycache__
 optimized
+dataset/HLS_Dataset
 GENETIC_DSE_*

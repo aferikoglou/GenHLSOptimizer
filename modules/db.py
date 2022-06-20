@@ -33,6 +33,8 @@ class DB():
 		synth_timeout = 0
 		synth_failed = 0
 		synth_success = 0
+		synth_success_no_feasible = 0
+		synth_success_feasible = 0
 		for key, item in self.db.items():
 			latency    = item["latency"]
 			util_bram  = item["util_bram"]
@@ -47,8 +49,10 @@ class DB():
 					synth_timeout += 1
 				else:
 					synth_failed += 1
+			elif (util_bram > 101 or util_dsp > 101 or util_ff > 101 or util_lut > 101 or util_uram > 101):
+				synth_success_no_feasible += 1
 			else:
-				synth_success +=1
+				synth_success_feasible += 1
 						
 			synth_total += 1
 
@@ -57,9 +61,13 @@ class DB():
 		# print(synth_failed)
 		# print(synth_success)
 
+		synth_success = synth_success_feasible + synth_success_no_feasible
+
 		synth_timeout_perc = (float(synth_timeout) / synth_total) * 100
 		synth_failed_perc = (float(synth_failed) / synth_total) * 100
 		synth_success_perc = (float(synth_success) / synth_total) * 100
+		synth_success_feasible_perc = (float(synth_success_feasible) / synth_success) * 100
+		synth_success_no_feasible_perc = (float(synth_success_no_feasible) / synth_success) * 100
 
 		print("#####")
 		print("Database Analytics")
@@ -70,7 +78,9 @@ class DB():
 		print("")
 		print("Synthesis timeout percentage = %f (%s)" % (synth_timeout_perc, synth_timeout))
 		print("Synthesis failed percentage  = %f (%s)" % (synth_failed_perc, synth_failed))
-		print("Synthesis success percentage = %f (%s)" % (synth_success_perc, synth_success))
+		print("Synthesis success total percentage = %f (%s)" % (synth_success_perc, synth_success))
+		print("- Synthesis feasible percentage = %f (%s)" % (synth_success_feasible_perc, synth_success_feasible))
+		print("- Synthesis non feasible percentage = %f (%s)" % (synth_success_no_feasible_perc, synth_success_no_feasible))
 		print("#####")
 		
 

@@ -16,7 +16,7 @@ class Experiment:
 		# runningTime defines the time we wait to synthesize the kernel using Vitis HLS
 		self.runningTime       = 3600 # 1 hour
 		# timeIncrement defines how often do we check whether the vitis_hls process is finished
-		self.timeIncrement     = 5 # 5 sec
+		self.timeIncrement     = 1 # 1 sec
 		self.outputDir         = device + "_" + period
 
 		# Create output directory which consists of the part id of the target device and the target clock period
@@ -173,16 +173,103 @@ class Experiment:
 
 		self.__writeExperimentResults()
 
-PATH_TO_RODINIA_HLS_DIR = './kernels'
-BENCHS = ['backprop', 'backprop_forward', 'cfd_step_factor', 'hotspot', 'kmeans', 'knn', 'lc_dilate', 'lc_mgvf', 'pathfinder', 'srad', 'streamcluster', 'kalman']
+PATH_TO_HLS_DATASET_DIR = './HLS_Dataset'
 DEVICE = 'xczu9eg-ffvb1156-2-e'
 PERIOD = '3.33'
 
-for bench in BENCHS:
-	PATH_TO_BENCH_DIR = os.path.join(PATH_TO_RODINIA_HLS_DIR, bench)
+#######################
+# Get benchmark names #
+#######################
+
+BENCHMARK_L = []
+counter = 0
+rootdir = PATH_TO_HLS_DATASET_DIR
+for f in os.listdir(rootdir):
+	d = os.path.join(rootdir, f)
+	if os.path.isdir(d):
+		bench_name = d.split('/')[2]
+		BENCHMARK_L.insert(counter, bench_name)
+		counter += 1
+
+#########################################
+# Execute experiment for each benchmark #
+#########################################
+
+for bench in BENCHMARK_L:
+	PATH_TO_BENCH_DIR = os.path.join(PATH_TO_HLS_DATASET_DIR, bench)
 	for f in os.listdir(PATH_TO_BENCH_DIR):
 		fname = os.fsdecode(f)
-		if (fname.endswith(".c") or fname.endswith(".cpp")) and fname != "noDirectives.cpp":
-			experiment = Experiment(PATH_TO_BENCH_DIR, fname, "workload", DEVICE, PERIOD)
+		if (fname.endswith(".c") or fname.endswith(".cpp") or fname.endswith(".cl")) and fname != "noDirectives.cpp":
+			experiment = Experiment(PATH_TO_BENCH_DIR, fname, "face_detect", DEVICE, PERIOD)
 			experiment.run()
+
+#########################
+# Get dataset analytics #
+#########################
+
+failed = 0
+failed_list = []
+failed_during_synth = 0
+failed_during_synth_list = []
+synth_timed_out = 0
+synth_timed_out_list = []
+synth_total = 0
+for bench in BENCHMARK_L:
+	OUTPUT_FILE_PATH = os.path.join(PATH_TO_HLS_DATASET_DIR, bench, DEVICE + "_" + PERIOD, "output.json")
+	# print(OUTPUT_FILE_PATH)
+
+	# Check if the code was successfully synthesized
+	try:
+		f = open(OUTPUT_FILE_PATH)
+	except:
+		failed_list.insert(failed, bench)
+		failed += 1
+
+		continue
+
+	data = json.load(f)
+	# print(data)
+	
+	# Check if it was able to finish synthesis in 1 hour
+	for src_version in ["no_directives_woVO", "no_directives_woVO", "original_wVO", "original_woVO"]:
+		try:
+			totalSynthTime = data[src_version]["totalSynthTime"]
+
+			if totalSynthTime >= 3600:
+				synth_timed_out_list.insert(synth_timed_out, bench)
+				synth_timed_out += 1
+
+				break
+
+			latency   = data[src_version]["latency"]
+			bram_util = data[src_version]["util_bram"]
+			dsp_util  = data[src_version]["util_dsp"]
+			ff_util   = data[src_version]["util_ff"]
+			lut_util  = data[src_version]["util_lut"]
+			
+		except:
+			failed_during_synth_list.insert(failed_during_synth, bench)
+			failed_during_synth += 1
+
+			break
+
+	f.close()
+
+	# Check if it was able to produce the output.json file
+	synth_total += 1
+
+print("#####")
+print("Dataset Analytics")
+print(" ")
+print("Total repositories = %s" % (failed + synth_total))
+print("Did not produce output.json file = %s" % failed)
+print(failed_list)
+print("Able to start synthesis = %s" % synth_total)
+print("Repositories that were fully synthesized = %s" % (synth_total - synth_timed_out - failed_during_synth))
+print("Failed during synthesis = %s" % failed_during_synth)
+print(failed_during_synth_list)
+print("Timed out synthesis = %s" % synth_timed_out)
+print(synth_timed_out_list)
+print(" ")
+print("#####")
 
