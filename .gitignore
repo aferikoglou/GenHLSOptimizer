@@ -5,8 +5,7 @@
 ./*.tcl
 ./*.log
 ./kernel_info.txt
-optimized
-GENETIC_DSE_*
-./dataset/ready2run
-./dataset/HLS_Dataset
-./databases
+optimized/
+GENETIC_DSE_*/
+dataset/
+databases/
