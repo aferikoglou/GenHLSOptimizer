@@ -227,8 +227,15 @@ class HLSDirectiveOptimizationProblem(ElementwiseProblem):
 
 		json_import = json.load(temp)
 		
-		latency = int(json_import["ClockInfo"]["Latency"])
-		period = float(json_import["ClockInfo"]["ClockPeriod"])
+		# Handle the latency undef case
+		latency = None
+		period = None
+		try:
+			latency = int(json_import["ClockInfo"]["Latency"])
+			period = float(json_import["ClockInfo"]["ClockPeriod"])
+		except:
+			latency = 1000000
+			period = 1000000
 
 		latency = (latency * period) / 1000000
 
