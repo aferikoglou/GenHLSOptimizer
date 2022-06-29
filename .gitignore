@@ -5,6 +5,7 @@
 ./*.tcl
 ./*.log
 ./kernel_info.txt
+modules/__pycache__/
 optimized/
 GENETIC_DSE_*/
 dataset/
