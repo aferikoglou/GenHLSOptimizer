@@ -79,6 +79,7 @@ parser = argparse.ArgumentParser(description='A script for optimizing high level
 parser.add_argument('--INPUT_SOURCE_PATH', type=str, required=True, help='The path to the kernel source code that is going to be optimized.')
 parser.add_argument('--INPUT_SOURCE_INFO_PATH', type=str, required=True, help='The path to the kernel source code information.')
 parser.add_argument('--DB_NAME', type=str, required=True, help='The name of the used database.')
+parser.add_argument('--SRC_EXTENSION', type=str, default=".cpp", help='The source code file extension.')
 parser.add_argument('--GENERATIONS', type=int, default=24, help='The number of GA generations.')
 parser.add_argument('--THREADS', type=int, default=40, help='The number of used threads.')
 parser.add_argument('--TIMEOUT', type=int, default=3600, help='Vitis HLS timeout in seconds.')
@@ -92,6 +93,7 @@ INPUT_SOURCE_PATH = args.INPUT_SOURCE_PATH
 INPUT_SOURCE_INFO_PATH = args.INPUT_SOURCE_INFO_PATH
 DB_NAME = args.DB_NAME
 
+src_extension = args.SRC_EXTENSION
 timeout = args.TIMEOUT
 generations = args.GENERATIONS
 thread_num = args.THREADS
@@ -183,7 +185,7 @@ class HLSDirectiveOptimizationProblem(ElementwiseProblem):
 		i += 1
 		my_i = i
 		
-		OUTPUT_SOURCE_PATH = os.path.join("./", "kernel_" + str(my_i) + ".cpp")
+		OUTPUT_SOURCE_PATH = os.path.join("./", "kernel_" + str(my_i) + src_extension)
 		TCL_SCRIPT_PATH = os.path.join("./", "script_" + str(my_i) + ".tcl")
 		VITIS_LOG_PATH = os.path.join("./", "vitis_hls_" + str(my_i) + ".log")
 
@@ -234,6 +236,7 @@ class HLSDirectiveOptimizationProblem(ElementwiseProblem):
 			latency = int(json_import["ClockInfo"]["Latency"])
 			period = float(json_import["ClockInfo"]["ClockPeriod"])
 		except:
+			# Identify the latency undef case using a magic number
 			latency = 1000000
 			period = 1000000
 
@@ -277,7 +280,7 @@ class HLSDirectiveOptimizationProblem(ElementwiseProblem):
 
 		command = 'rm -r GENETIC_DSE_' + str(my_i)
 		os.system(command)
-		command = 'rm ' + os.path.join("./", 'kernel_' + str(my_i) + '.cpp')
+		command = 'rm ' + os.path.join("./", 'kernel_' + str(my_i) + src_extension)
 		os.system(command)
 		command = 'rm ' + os.path.join("./", 'script_' + str(my_i) + '.tcl')
 		os.system(command)
@@ -385,24 +388,28 @@ db.close()
 
 command = 'rm -r ./optimized'
 os.system(command)
-OPTIMIZED_DIR = "./optimized"
-mkdir_p(OPTIMIZED_DIR)
-
-f = open(os.path.join(OPTIMIZED_DIR, 'info.csv'), 'w')
-f.write("name, latency, bram_util, dsp_util, ff_util, lut_util, uram_util\n")
 
 pareto_optimal_points_num = len(res.X)
-for i in range(pareto_optimal_points_num):
-	X = list(res.X[i])
-	F = list(res.F[i])
-	Y = problem.convert_indices_to_directives(directives, X)
-	name = "optimized_" + str(i + 1) + ".cpp"
-	OUTPUT_SOURCE_PATH = os.path.join(OPTIMIZED_DIR, name)
-	problem.apply_directives(INPUT_SOURCE_PATH, OUTPUT_SOURCE_PATH, Y)
+if pareto_optimal_points_num != 0:
+	OPTIMIZED_DIR = "./optimized"
+	mkdir_p(OPTIMIZED_DIR)
 
-	f.write(str(name) + ', ' + str(F[0]) + ', ' + str(F[1]) + ', ' + str(F[2]) + ', ' + str(F[3]) + ', ' + str(F[4]) + ', ' + str(F[5]) + '\n')
+	f = open(os.path.join(OPTIMIZED_DIR, 'info.csv'), 'w')
+	f.write("name, latency, bram_util, dsp_util, ff_util, lut_util, uram_util\n")
+	
+	for i in range(pareto_optimal_points_num):
+		X = list(res.X[i])
+		F = list(res.F[i])
+		Y = problem.convert_indices_to_directives(directives, X)
+		name = "optimized_" + str(i + 1) + src_extension
+		OUTPUT_SOURCE_PATH = os.path.join(OPTIMIZED_DIR, name)
+		problem.apply_directives(INPUT_SOURCE_PATH, OUTPUT_SOURCE_PATH, Y)
 
-f.close()
+		f.write(str(name) + ', ' + str(F[0]) + ', ' + str(F[1]) + ', ' + str(F[2]) + ', ' + str(F[3]) + ', ' + str(F[4]) + ', ' + str(F[5]) + '\n')
+
+	f.close()
+else:
+	print("The genetic algorithm WAS NOT able to provide Pareto Optimal configurations.")
 	
 #########################
 # Delete the DSE output #
@@ -410,10 +417,9 @@ f.close()
 
 command = 'rm -r GENETIC_DSE_*'
 os.system(command)
-command = 'rm kernel_*.cpp'
+command = 'rm kernel_*' + src_extension
 os.system(command)
 command = 'rm script_*.tcl'
 os.system(command)
 command = 'rm vitis_hls_*.log'
 os.system(command)
-

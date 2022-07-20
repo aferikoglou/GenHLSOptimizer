@@ -17,3 +17,4 @@ db = DB(DB_PATH)
 
 # db.print()
 db.analyze(TIMEOUT)
+# db.export()

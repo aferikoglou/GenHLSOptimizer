@@ -1,20 +1,62 @@
 #!/bin/bash
 
+SCRIPT_PID=$$
+echo "Current proc PID "$SCRIPT_PID
+
+check_memory() {
+
+	TOTAL_MEM=$(free --mega | grep Mem | awk '{print $2}')
+	# echo "Total memory "$TOTAL_MEM" MB"
+	FREE_MEM=$(free --mega | grep Mem | awk '{print $4}')
+	# echo "Free memory "$FREE_MEM" MB"
+	USED_MEM=$(free --mega | grep Mem | awk '{print $3}')
+	# echo "Used memory "$USED_MEM" MB"
+
+	THRESHOLD=$(echo "$TOTAL_MEM*0.95 / 1" | bc)
+	echo "Memory threshold "$THRESHOLD" MB"
+
+	while [ $USED_MEM -lt $THRESHOLD ]
+	do
+		USED_MEM=$(free --mega | grep Mem | awk '{print $3}')
+		# echo "Used memory "$USED_MEM" MB"
+
+		sleep 1
+	done
+
+	echo "AUTOMATIC OPTIMIZER EXCEEDED MEMORY THRESHOLD !"
+
+	kill -- -$SCRIPT_PID
+
+}
+
 run_func() {
 	DIR=./dataset/ready2run/$APP
 
 	# Copy required files to working directory
 	cp ./dataset/ready2run/$APP/*.cpp .
+	cp ./dataset/ready2run/$APP/*.c .
 	cp ./dataset/ready2run/$APP/*.h .
 	cp ./dataset/ready2run/$APP/*.txt .
 
+	check_memory &
+	BACKGROUND_PROC_PID=$!
+	echo "check_memory background proc PID "$BACKGROUND_PROC_PID
+	sleep 5
+
 	# Start the Design Space Exploration
-	INPUT_SOURCE_PATH=./*.cpp
+	
 	INPUT_SOURCE_INFO_PATH=./kernel_info.txt
+	TOP_LEVEL_FUNCTION=$(head -n 1 kernel_info.txt)
+	echo "Top level function = "$TOP_LEVEL_FUNCTION
+	INPUT_SOURCE_PATH=$(grep -l $TOP_LEVEL_FUNCTION ./*$SRC_EXTENSION)
+	echo "Input source code path = "$INPUT_SOURCE_PATH
+
 	DB_NAME=$APP
 
-	TIMEOUT=3600
-	python3 automatic_optimizer.py --INPUT_SOURCE_PATH $INPUT_SOURCE_PATH --INPUT_SOURCE_INFO_PATH $INPUT_SOURCE_INFO_PATH --DB_NAME $DB_NAME --GENERATIONS 24 --THREADS 40 --TIMEOUT $TIMEOUT
+	TIMEOUT=3600 # in sec
+	# python3 automatic_optimizer.py --INPUT_SOURCE_PATH $INPUT_SOURCE_PATH --INPUT_SOURCE_INFO_PATH $INPUT_SOURCE_INFO_PATH --DB_NAME $DB_NAME --SRC_EXTENSION $SRC_EXTENSION --GENERATIONS 24 --THREADS 20 --TIMEOUT $TIMEOUT
+
+	kill $BACKGROUND_PROC_PID
 
 	# Get database analytics
 	python3 db_analyzer.py --DB_NAME $APP --TIMEOUT $TIMEOUT
@@ -43,13 +85,15 @@ clean_func() {
 	rm *.c
 	rm *.h
 	rm kernel_info.txt
+
+	rm *.json
 }
 
 help() {
 
         echo "Usage: ./driver.sh [MODE]"
 	echo " MODE:"
-	echo "      run [APPLICATION] 	Start the Genetic Algorithm based Design Space Exploration for the given application"
+	echo "      run [APPLICATION][SRC_EXTENSION] 	Start the Genetic Algorithm based Design Space Exploration for the given application"
 	echo "      kill			Kill all the Vitis HLS 2021.1 processes for the current user"
 	echo "      clean			Delete the output files"
 
@@ -61,6 +105,7 @@ help() {
 
 MODE=$1
 APP=$2
+SRC_EXTENSION=$3
 
 if [ "${MODE}" == "run" ];
 then
