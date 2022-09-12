@@ -1,3 +1,5 @@
+import modules.simpleDirectivePlacement as sdp
+import os
 
 class Preprocessor():
 	def __init__(self, input_src_info_path):
@@ -97,4 +99,14 @@ class Preprocessor():
 
 		f.close()
 
+		return(self.n_var, self.top_level_func, self.directives)
+
+#--------------------- Andreas's code --------------------------
+	# A new preprocess method that places simple directives
+	def preprocess2(self):
+		with open(os.path.dirname(self.input_src_info_path),'r') as kernelInfoFile:
+			lines = kernelInfoFile.readlines()
+		self.n_var = len(lines) - 1
+		self.top_level_func = lines[0].strip('\n').strip('\t')
+		self.directives = sdp.simpleDirectiveBuilder(self.input_src_info_path)
 		return(self.n_var, self.top_level_func, self.directives)

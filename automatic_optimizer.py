@@ -28,6 +28,8 @@ from modules.preprocessor import Preprocessor
 # Utility functions #
 #####################
 
+PREPROCESS_2 = False # change to true in order to use preprocess2
+
 def mkdir_p(OUTPUT_DIR):
 	command = 'mkdir -p ' + OUTPUT_DIR
 
@@ -105,7 +107,11 @@ with open(OPERATOR_CONFIG_PATH) as f:
 	operator_config = json.load(f)
 
 preprocessor = Preprocessor(INPUT_SOURCE_INFO_PATH)
-(n_var, top_level_function, directives) = preprocessor.preprocess()
+#-------------------- Modified to use preprocess2 ------------
+if PREPROCESS_2:
+	(n_var, top_level_function, directives) = preprocessor.preprocess
+else:
+	(n_var, top_level_function, directives) = preprocessor.preprocess()
 
 DB_PATH = os.path.join("./databases", DB_NAME + ".sqlite")
 db = DB(DB_PATH)
