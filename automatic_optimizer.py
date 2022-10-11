@@ -24,6 +24,16 @@ from modules.hlsDirectiveOptimizationProblem import HLSDirectiveOptimizationProb
 # Parse command line arguments #
 ################################
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
 parser = argparse.ArgumentParser(description='A script for optimizing high level synthesis kernels using genetic algorithms.')
 parser.add_argument('--INPUT_SOURCE_PATH', type=str, required=True, help='The path to the kernel source code that is going to be optimized.')
 parser.add_argument('--INPUT_SOURCE_INFO_PATH', type=str, required=True, help='The path to the kernel source code information.')
@@ -35,6 +45,7 @@ parser.add_argument('--THREADS', type=int, default=40, help='The number of used 
 parser.add_argument('--TIMEOUT', type=int, default=3600, help='Vitis HLS timeout in seconds.')
 parser.add_argument('--DEVICE_ID', type=str, default="xczu7ev-ffvc1156-2-e", help='The target FPGA device id. (default: MPSoC ZCU104)')
 parser.add_argument('--CLK_PERIOD', type=str, default="3.33", help='The target FPGA clock period.')
+parser.add_argument('--GET_PO_KERNELS', type=str2bool, default=False, help='Defines whether the optimizer produces the Pareto optimal kernel source codes.')
 
 args = parser.parse_args()
 
@@ -48,6 +59,7 @@ THREAD_NUM             = args.THREADS
 TIMEOUT                = args.TIMEOUT
 DEVICE_ID              = args.DEVICE_ID
 CLOCK_PERIOD           = args.CLK_PERIOD
+GET_PO_KERNELS         = args.GET_PO_KERNELS
 
 #########################
 # Perform preprocessing #
@@ -139,35 +151,36 @@ db.close()
 # Create the optimized kernels #
 ################################
 
-command = 'rm -r ./optimized'
-os.system(command)
-
-if res.X.size != 0:
-    pareto_optimal_points_num = len(res.X)
-
-    OPTIMIZED_DIR = "./optimized"
-    command = 'mkdir -p ' + OPTIMIZED_DIR
+if GET_PO_KERNELS:
+    command = 'rm -r ./optimized'
     os.system(command)
 
-    f = open(os.path.join(OPTIMIZED_DIR, 'info.csv'), 'w')
-    f.write("name, latency, bram_util, dsp_util, ff_util, lut_util, uram_util\n")
-    
-    for i in range(pareto_optimal_points_num):
-        X = list(res.X[i])
-        F = list(res.F[i])
+    if res.X.size != 0:
+        pareto_optimal_points_num = len(res.X)
 
-        Y = problem.convert_indices_to_directives(directives, X)
+        OPTIMIZED_DIR = "./optimized"
+        command = 'mkdir -p ' + OPTIMIZED_DIR
+        os.system(command)
 
-        name = "optimized_" + str(i + 1) + SRC_EXTENSION
-        OUTPUT_SOURCE_PATH = os.path.join(OPTIMIZED_DIR, name)
-        problem.apply_directives(INPUT_SOURCE_PATH, OUTPUT_SOURCE_PATH, Y)
+        f = open(os.path.join(OPTIMIZED_DIR, 'info.csv'), 'w')
+        f.write("name, latency, bram_util, dsp_util, ff_util, lut_util, uram_util\n")
+        
+        for i in range(pareto_optimal_points_num):
+            X = list(res.X[i])
+            F = list(res.F[i])
 
-        f.write(str(name) + ', ' + str(F[0]) + ', ' + str(F[1]) + ', ' + str(F[2]) + ', ' + str(F[3]) + ', ' + str(F[4]) + ', ' + str(F[5]) + '\n')
+            Y = problem.convert_indices_to_directives(directives, X)
 
-    f.close()
-else:
-    print("The genetic algorithm WAS NOT able to provide Pareto Optimal configurations.")
-    
+            name = "optimized_" + str(i + 1) + SRC_EXTENSION
+            OUTPUT_SOURCE_PATH = os.path.join(OPTIMIZED_DIR, name)
+            problem.apply_directives(INPUT_SOURCE_PATH, OUTPUT_SOURCE_PATH, Y)
+
+            f.write(str(name) + ', ' + str(F[0]) + ', ' + str(F[1]) + ', ' + str(F[2]) + ', ' + str(F[3]) + ', ' + str(F[4]) + ', ' + str(F[5]) + '\n')
+
+        f.close()
+    else:
+        print("The genetic algorithm WAS NOT able to provide Pareto Optimal configurations.")
+
 #########################
 # Delete the DSE output #
 #########################
