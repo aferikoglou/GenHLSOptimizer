@@ -14,12 +14,12 @@ These instructions will get you a copy of the project on your local machine.
 
 This project was tested on Ubuntu 18.04.6 LTS (GNU/Linux 5.4.0-122-generic x86_64) with Python 3.6.9 and Vitis 2021.1 suite installed. 
 
-In addition, the following libraries have to be installed:
-* [pymoo](https://pypi.org/project/pymoo/)(v0.5.0)
-* [sqlitedict](https://pypi.org/project/sqldict/)(v2.0.0)
-* [psutil](https://pypi.org/project/psutil/)(v5.9.0)
+In addition, the following libraries are needed:
+* [pymoo](https://pypi.org/project/pymoo/) (v0.5.0)
+* [sqlitedict](https://pypi.org/project/sqldict/) (v2.0.0)
+* [psutil](https://pypi.org/project/psutil/) (v5.9.0)
 
-which can be simply installed using the following command:
+which can be simply installed using the following command.
 
 ```bash
 python3 -m pip install -r requirements.txt
