@@ -33,10 +33,10 @@ run_func() {
     DIR=./dataset/ready2run/$APP
 
     # Copy required files to working directory
-    cp ./dataset/ready2run/$APP/*.cpp .
-    cp ./dataset/ready2run/$APP/*.c .
-    cp ./dataset/ready2run/$APP/*.h .
-    cp ./dataset/ready2run/$APP/*.txt .
+    cp ./dataset/$APP/*.cpp .
+    cp ./dataset/$APP/*.c .
+    cp ./dataset/$APP/*.h .
+    cp ./dataset/$APP/*.txt .
 
     check_memory &
     BACKGROUND_PROC_PID=$!
