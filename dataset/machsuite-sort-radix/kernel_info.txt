@@ -1,0 +1,12 @@
+ss_sort
+L1,loop,128
+L2,loop,16
+L3,loop,128
+L4,loop,128
+L5,loop,16
+L6,loop,2048
+L7,loop,512
+L8,loop,4
+L9,loop,512
+L10,loop,4
+L11,loop,32

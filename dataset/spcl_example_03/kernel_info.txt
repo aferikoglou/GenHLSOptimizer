@@ -1,0 +1,7 @@
+Stencil2D
+L1,array,above_buffer,1,1000
+L2,array,center_buffer,1,1000
+L3,loop,1000
+L4,loop,1000
+L5,loop,999
+L6,loop,1000

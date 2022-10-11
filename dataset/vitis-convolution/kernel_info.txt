@@ -1,0 +1,16 @@
+Filter2DKernel
+L1,loop,288
+L2,loop,2073600
+L3,loop,2073600
+L4,array,LineBuffer,1,14,2,1920
+L5,loop,2087054
+L6,loop,15
+L7,loop,14
+L8,loop,13
+L9,array,coeffs,1,15,2,15
+L10,loop,15
+L11,loop,15
+L12,loop,1080
+L13,loop,1920
+L14,loop,15
+L15,loop,15

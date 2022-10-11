@@ -1,0 +1,10 @@
+workload
+L1,loop,129
+L2,loop,129
+L3,loop,129
+L4,loop,129
+L5,loop,256
+L6,loop,256
+L7,array,M,1,16641
+L8,array,ptr,1,16641
+L9,loop,100

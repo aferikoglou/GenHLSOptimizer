@@ -1,0 +1,6 @@
+workload
+L1,loop,1024
+L2,array,result_inner,1,1024
+L3,array,variables_inner,1,5120
+L4,array,areas_inner,1,1024
+L5,loop,1

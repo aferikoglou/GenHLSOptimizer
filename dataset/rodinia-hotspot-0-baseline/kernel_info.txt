@@ -1,0 +1,4 @@
+workload
+L1,loop,512
+L2,loop,512
+L3,loop,32

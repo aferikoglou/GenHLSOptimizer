@@ -1,0 +1,7 @@
+workload
+L1,loop,1023
+L2,loop,1024
+L3,array,dst,1,1024
+L4,array,src,1,1024
+L5,loop,1023
+L6,loop,1024

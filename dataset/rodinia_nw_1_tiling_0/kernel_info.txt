@@ -1,0 +1,15 @@
+workload
+L1,array,M,1,16641
+L2,array,ptr,1,16641
+L3,loop,129
+L4,loop,129
+L5,loop,129
+L6,loop,129
+L7,loop,256
+L8,loop,256
+L9,array,seqA_buf,1,32768
+L10,array,seqB_buf,1,32768
+L11,array,alignedA_buf,1,65536
+L12,array,alignedB_buf,1,65536
+L13,loop,100
+L14,loop,256

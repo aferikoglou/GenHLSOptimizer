@@ -1,0 +1,13 @@
+workload
+L1,array,strel,1,25
+L2,loop,32
+L3,loop,512
+L4,loop,5
+L5,loop,5
+L6,loop,36
+L7,loop,512
+L8,loop,32
+L9,loop,512
+L10,array,result_inner_0,1,16384
+L11,array,img_inner_0,1,18432
+L12,loop,17

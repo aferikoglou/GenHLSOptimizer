@@ -1,0 +1,7 @@
+workload
+L1,array,l1_buf,1,65537
+L2,array,conn_buf,1,8704
+L3,array,l2_buf,1,17
+L4,loop,17
+L5,loop,66048
+L6,loop,512

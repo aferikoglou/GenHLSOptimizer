@@ -1,0 +1,9 @@
+workload
+L1,loop,64
+L2,loop,512
+L3,array,result_inner,1,32768
+L4,array,temp_inner,1,33792
+L5,array,power_inner,1,32768
+L6,loop,32
+L7,loop,8
+L8,loop,8

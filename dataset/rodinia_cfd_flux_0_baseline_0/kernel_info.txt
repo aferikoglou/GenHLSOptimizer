@@ -1,0 +1,4 @@
+workload
+L1,array,ff_variable,1,5
+L2,loop,1024
+L3,loop,4

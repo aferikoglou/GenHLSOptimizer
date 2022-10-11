@@ -1,0 +1,11 @@
+workload
+L1,loop,1024
+L2,loop,512
+L3,loop,2
+L4,loop,2
+L5,loop,512
+L6,array,local_inputQuery,1,2
+L7,array,local_searchSpace,1,1024
+L8,array,local_distance,1,512
+L9,loop,2
+L10,loop,2048

@@ -1,0 +1,5 @@
+stencil
+L1,loop,126
+L2,loop,62
+L3,loop,3
+L4,loop,3

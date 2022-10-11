@@ -1,0 +1,10 @@
+workload
+L1,loop,1024
+L2,array,density,1,1
+L3,array,momentum,1,1
+L4,array,density_energy,1,1
+L5,loop,1
+L6,array,result_inner,1,1024
+L7,array,variables_inner,1,5120
+L8,array,areas_inner,1,1024
+L9,loop,1

@@ -1,0 +1,15 @@
+workload
+L1,loop,256
+L2,loop,200
+L3,loop,256
+L4,array,buffer_target,1,200
+L5,array,buffer_center_table,1,1024
+L6,array,buffer_work_mem,1,1024
+L7,array,buffer_switch_membership,1,1024
+L8,array,buffer_cost_of_opening_x,1,1
+L9,array,buffer_assign,1,256
+L10,array,buffer_cost,1,256
+L11,array,buffer_weight,1,256
+L12,array,buffer_coord,1,51200
+L13,array,x_cost,1,256
+L14,loop,1024

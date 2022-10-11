@@ -1,0 +1,14 @@
+workload
+L1,array,ff_variable,1,5
+L2,loop,2
+L3,loop,16
+L4,loop,4
+L5,array,result_inner,1,160
+L6,array,elements_surrounding_elements_inner,1,128
+L7,array,normals_inner,1,384
+L8,array,variables_inner,1,5120
+L9,array,fc_momentum_x_inner,1,3072
+L10,array,fc_momentum_y_inner,1,3072
+L11,array,fc_momentum_z_inner,1,3072
+L12,array,fc_density_energy_inner,1,3072
+L13,loop,32

@@ -1,0 +1,10 @@
+stencil3d
+L1,loop,32
+L2,loop,16
+L3,loop,31
+L4,loop,16
+L5,loop,31
+L6,loop,31
+L7,loop,31
+L8,loop,31
+L9,loop,15

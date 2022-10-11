@@ -1,0 +1,17 @@
+rendering
+L1,loop,100
+L2,array,z_buffer,1,256,2,256
+L3,loop,256
+L4,loop,256
+L5,loop,100
+L6,loop,256
+L7,loop,256
+L8,loop,10000
+L9,loop,256
+L10,loop,256
+L11,array,fragment,1,500
+L12,array,pixels,1,500
+L13,array,frame_buffer,1,256,2,256
+L14,array,max_min,1,5
+L15,array,max_index,1,1
+L16,loop,3192

@@ -1,0 +1,6 @@
+workload
+L1,loop,256
+L2,loop,256
+L3,loop,256
+L4,loop,256
+L5,loop,256

@@ -1,0 +1,13 @@
+tsp
+L1,loop,-1
+L2,loop,4
+L3,array,perm,1,5
+L4,loop,5
+L5,loop,4
+L6,loop,-1
+L7,array,distances_0,1,5,2,5
+L8,array,distances_1,1,5,2,5
+L9,array,distances_2,1,5,2,5
+L10,array,distances_3,1,5,2,5
+L11,loop,25
+L12,loop,6

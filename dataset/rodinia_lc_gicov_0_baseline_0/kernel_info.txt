@@ -1,0 +1,12 @@
+workload
+L1,array,sin_angle,1,16
+L2,array,cos_angle,1,16
+L3,array,tX,1,2,2,16
+L4,array,tY,1,2,2,16
+L5,loop,253
+L6,array,Grad,1,16
+L7,loop,253
+L8,loop,2
+L9,loop,16
+L10,loop,16
+L11,loop,16

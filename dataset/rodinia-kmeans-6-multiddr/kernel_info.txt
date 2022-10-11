@@ -1,0 +1,15 @@
+workload
+L1,loop,9216
+L2,loop,9216
+L3,loop,4096
+L4,loop,5
+L5,loop,34
+L6,loop,9216
+L7,array,local_membership_0,1,4096
+L8,array,local_feature_0,1,139264
+L9,array,local_membership_1,1,4096
+L10,array,local_feature_1,1,139264
+L11,array,local_membership_2,1,4096
+L12,array,local_feature_2,1,139264
+L13,array,local_clusters,1,170
+L14,loop,102

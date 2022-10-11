@@ -1,0 +1,11 @@
+aes256_encrypt_ecb
+L1,array,sbox,1,256
+L2,loop,16
+L3,loop,16
+L4,loop,16
+L5,loop,4
+L6,loop,3
+L7,loop,3
+L8,loop,32
+L9,loop,7
+L10,loop,13

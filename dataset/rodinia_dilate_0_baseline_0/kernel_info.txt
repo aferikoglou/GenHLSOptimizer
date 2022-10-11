@@ -1,0 +1,6 @@
+workload
+L1,array,strel,1,25
+L2,loop,544
+L3,loop,512
+L4,loop,5
+L5,loop,5

@@ -1,0 +1,11 @@
+workload
+L1,array,w0_buf,1,16
+L2,array,oldw0_buf,1,16
+L3,array,delta_buf,1,16
+L4,array,ly_buf,1,65536
+L5,array,w_buf,1,4096,2,16
+L6,array,oldw_buf,1,4096,2,16
+L7,loop,65537
+L8,loop,4096
+L9,loop,16
+L10,loop,16

@@ -1,0 +1,6 @@
+bbgemm
+L1,loop,64
+L2,loop,64
+L3,loop,64
+L4,loop,8
+L5,loop,8
