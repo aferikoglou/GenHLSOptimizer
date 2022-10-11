@@ -30,7 +30,7 @@ check_memory() {
 }
 
 run_func() {
-    DIR=./dataset/ready2run/$APP
+    DIR=./dataset/$APP
 
     # Copy required files to working directory
     cp ./dataset/$APP/*.cpp .

@@ -25,7 +25,7 @@ class HLSDirectiveOptimizationProblem(ElementwiseProblem):
 
         self.i = 0
         self.lock = Lock()
-        
+       
         super().__init__(n_var=n_var, n_obj=6, n_constr=5, xl=xl, xu=xu, type_var=int, **kwargs)
 
     def convert_indices_to_directives(self, directives, X):
@@ -91,8 +91,8 @@ class HLSDirectiveOptimizationProblem(ElementwiseProblem):
         TCL_SCRIPT_PATH = os.path.join("./", "script_" + str(my_i) + ".tcl")
         VITIS_LOG_PATH = os.path.join("./", "vitis_hls_" + str(my_i) + ".log")
 
-        y = self._convert_indices_to_directives(self.DIRECTIVES, x)
-        self._apply_directives(self.INPUT_SOURCE_PATH, OUTPUT_SOURCE_PATH, y)
+        y = self.convert_indices_to_directives(self.DIRECTIVES, x)
+        self.apply_directives(self.INPUT_SOURCE_PATH, OUTPUT_SOURCE_PATH, y)
         self._create_tcl(TCL_SCRIPT_PATH, "GENETIC_DSE_" + str(my_i), self.TOP_LEVEL_FUNCTION, OUTPUT_SOURCE_PATH, self.DEVICE_ID, self.CLOCK_PERIOD, False)
         
         p = subprocess.Popen(['vitis_hls', '-f', TCL_SCRIPT_PATH, '-l', VITIS_LOG_PATH])    

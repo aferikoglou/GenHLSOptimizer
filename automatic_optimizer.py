@@ -72,7 +72,11 @@ preprocessor = Preprocessor(INPUT_SOURCE_INFO_PATH)
 # Create/Open application database #
 ####################################
 
-DB_PATH = os.path.join("./databases_NEW", DB_NAME + ".sqlite")
+DATABASES_DIR = './databases_NEW'
+command = 'mkdir -p ' + DATABASES_DIR
+os.system(command)
+
+DB_PATH = os.path.join(DATABASES_DIR, DB_NAME + ".sqlite")
 db = DB(DB_PATH)
 
 ##################################################
