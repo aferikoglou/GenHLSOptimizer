@@ -60,7 +60,7 @@ preprocessor = Preprocessor(INPUT_SOURCE_INFO_PATH)
 # Create/Open application database #
 ####################################
 
-DB_PATH = os.path.join("./databases", DB_NAME + ".sqlite")
+DB_PATH = os.path.join("./databases_NEW", DB_NAME + ".sqlite")
 db = DB(DB_PATH)
 
 ##################################################
@@ -92,8 +92,8 @@ operator_config = {}
 with open(OPERATOR_CONFIG_PATH) as f:
     operator_config = json.load(f)
 
-population_size = 5
-offsprings = 5
+population_size = 40
+offsprings = 40
 algorithm = NSGA2(
     pop_size=population_size,
     n_offsprings=offsprings,

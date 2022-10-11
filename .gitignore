@@ -2,6 +2,7 @@
 ./*.cl
 ./*.c
 ./*.h
+./*.json
 ./*.tcl
 ./*.log
 ./kernel_info.txt
