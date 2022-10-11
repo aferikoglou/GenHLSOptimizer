@@ -74,7 +74,7 @@ class DB():
 		# print(synth_failed)
 		# print(synth_success)
 
-		print("#####")
+		print("")
 		print("Database Analytics")
 		print("")
 		print("Database Path=%s" % self.db_path)
@@ -99,7 +99,7 @@ class DB():
 			print("- Synthesis feasible percentage = %f (%s)" % (synth_success_feasible_perc, self.synth_success_feasible))
 			print("- Synthesis non feasible percentage = %f (%s)" % (synth_success_no_feasible_perc, self.synth_success_no_feasible))
 		
-		print("#####")
+		print("")
 	
 	def export(self):
 		output_map = {}
