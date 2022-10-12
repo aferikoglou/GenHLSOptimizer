@@ -42,13 +42,13 @@ python3 -m pip install -r requirements.txt
 
 After downloading the software in the *Prerequisites* section you can clone this repository on your local machine.
 
-*Start the HLS directives Design Space Exploration*
+**Start the HLS directives Design Space Exploration**
 
 ```bash
 ./exec.sh run APP_NAME EXTENSION
 ```
 
-*Example*
+**Example**
 
 ```bash
 ./exec.sh run rodinia-knn-1-tiling .cpp
