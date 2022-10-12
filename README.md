@@ -2,16 +2,16 @@
 
 In this project we created an optimizer able to automatically perform High-Level Synthesis directives Design Space Exploration leveraging genetic algorithms. 
 
-Supported HLS directives:
+**Supported HLS Directives**:
 * Loop Pipiline
 * Loop Unroll
 * Array Partition
 
-Optimizer inputs:
+**Optimizer Inputs**:
 1. synthesizable C/C++ source code annotated with labels in each action point i.e. array, loop (1st action point will be annotated with label L1, 2nd with label L2 etc.)
 2. kernel_info.txt that provides a) the top level function name and b) information for each action point. For loop action points users have to provide the loop tripcount and for array action points users have to provide its name as well as the size of each array dimension.
 
-Optimizer outputs:
+**Optimizer Outputs**:
 1. pareto optimal kernel source codes
 2. info.csv that describes the pareto optimal kernel source code tradeoffs
 3. database with the examined directives configurations and their corresponding latencies and resources (BRAM%, DSP%, LUT% and FF%)
