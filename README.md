@@ -1,4 +1,4 @@
-# HLS Directive DSE based on Genetic Algorithms
+# HLS Directives DSE based on Genetic Algorithms
 
 In this project we created an optimizer able to automatically perform High-Level Synthesis directives Design Space Exploration leveraging genetic algorithms. 
 
@@ -9,12 +9,12 @@ In this project we created an optimizer able to automatically perform High-Level
 
 **Optimizer Inputs**:
 1. synthesizable C/C++ source code annotated with labels in each action point i.e. array, loop (1st action point will be annotated with label L1, 2nd with label L2 etc.)
-2. kernel_info.txt that provides a) the top level function name and b) information for each action point. For loop action points users have to provide the loop tripcount and for array action points users have to provide its name as well as the size of each array dimension.
+2. kernel_info.txt that provides **a)** the top level function name and **b)** information for each action point. For loop action points users have to provide the loop tripcount and for array action points users have to provide its name as well as the size of each array dimension.
 
 **Optimizer Outputs**:
-1. pareto optimal kernel source codes
-2. info.csv that describes the pareto optimal kernel source code tradeoffs
-3. database with the examined directives configurations and their corresponding latencies and resources (BRAM%, DSP%, LUT% and FF%)
+1. the Pareto optimal kernel source codes
+2. info.csv that describes the Pareto optimal kernel source code tradeoffs
+3. a database with the examined directives configurations and their corresponding latencies and resources (BRAM%, DSP%, LUT% and FF%)
 4. APP_NAME.json that provides statistics for the database
 
 In the dataset and databases directory sample inputs and outputs can be found.
