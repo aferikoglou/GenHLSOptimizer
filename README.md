@@ -15,7 +15,7 @@ In this project we created an optimizer able to automatically perform High-Level
 1. pareto optimal kernel source codes
 2. info.csv that describes the pareto optimal kernel source code tradeoffs
 3. database with the examined directives configurations and their corresponding latencies and resources (BRAM%, DSP%, LUT% and FF%)
-4. a json file that provides statistics for the database
+4. APP_NAME.json that provides statistics for the database
 
 In the dataset and databases directory sample inputs and outputs can be found.
 
