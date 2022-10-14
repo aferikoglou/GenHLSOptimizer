@@ -3,7 +3,7 @@
 In this project we created an optimizer able to automatically perform High-Level Synthesis directives Design Space Exploration leveraging genetic algorithms. 
 
 **Supported HLS Directives**:
-* Loop Pipiline
+* Loop Pipeline
 * Loop Unroll
 * Array Partition
 
