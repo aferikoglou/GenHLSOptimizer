@@ -36,6 +36,7 @@ run_func() {
     cp ./dataset/$APP/*.cpp .
     cp ./dataset/$APP/*.c .
     cp ./dataset/$APP/*.h .
+    cp ./dataset/$APP/*.hpp .
     cp ./dataset/$APP/*.txt .
 
     check_memory &
@@ -51,13 +52,20 @@ run_func() {
     INPUT_SOURCE_PATH=$(grep -l $TOP_LEVEL_FUNCTION ./*$SRC_EXTENSION)
     echo "Input source code path = "$INPUT_SOURCE_PATH
 
-    DB_NAME=$APP
+    # Zynq UltraScale+ ZCU104 Evaluation Board (xczu7ev-ffvc1156-2-e)
+    # Zynq UltraScale+ ZCU102 Evaluation Board (xczu9eg-ffvb1156-2-e)
+    # Alveo U50 Data Center Accelerator Card (xcu50-fsvh2104-2-e)
+    # Alveo U200 Data Center Accelerator Card (xcu200-fsgd2104-2-e)
 
-    GENERATIONS=24
-    THREADS=10
-    TIMEOUT=3600 # in sec
-    
-    python3 automatic_optimizer.py --INPUT_SOURCE_PATH $INPUT_SOURCE_PATH --INPUT_SOURCE_INFO_PATH $INPUT_SOURCE_INFO_PATH --DB_NAME $DB_NAME --SRC_EXTENSION $SRC_EXTENSION --GENERATIONS $GENERATIONS --THREADS $THREADS --TIMEOUT $TIMEOUT
+    for DEVICE_ID in xczu7ev-ffvc1156-2-e: # xczu7ev-ffvc1156-2-e xcu200-fsgd2104-2-e
+    do
+        for CLK_PERIOD in 10 5: # 10 5 3.33
+        do
+            DB_NAME=${APP}_${DEVICE_ID}_${CLK_PERIOD}
+
+            python3 automatic_optimizer.py --INPUT_SOURCE_PATH $INPUT_SOURCE_PATH --INPUT_SOURCE_INFO_PATH $INPUT_SOURCE_INFO_PATH --DB_NAME $DB_NAME --SRC_EXTENSION $SRC_EXTENSION --DEVICE_ID $DEVICE_ID --CLK_PERIOD $CLK_PERIOD
+        done
+    done
 
     kill $BACKGROUND_PROC_PID
 }

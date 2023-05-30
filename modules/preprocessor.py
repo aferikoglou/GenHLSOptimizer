@@ -62,24 +62,25 @@ class Preprocessor():
                 output.insert(cnt, directive)
                 cnt += 1
 
-                # UNROLL
-                max_factor = 0
-                if loop_iter <= 64:
-                    max_factor = loop_iter / 2 if (loop_iter % 2 == 0) else (loop_iter / 2) - 1
+                if loop_iter != -1:
+                    # UNROLL
+                    max_factor = 0
+                    if loop_iter <= 64:
+                        max_factor = loop_iter / 2 if (loop_iter % 2 == 0) else (loop_iter / 2) - 1
 
-                    directive = "#pragma HLS unroll"
-                    output.insert(cnt, directive)
-                    cnt += 1
-                else:
-                    max_factor = 64
+                        directive = "#pragma HLS unroll"
+                        output.insert(cnt, directive)
+                        cnt += 1
+                    else:
+                        max_factor = 64
 
-                factor = 2
-                while (factor <= max_factor):
-                    directive = "#pragma HLS unroll factor=" + str(factor)
-                    output.insert(cnt, directive)
-                    cnt += 1
+                    factor = 2
+                    while (factor <= max_factor):
+                        directive = "#pragma HLS unroll factor=" + str(factor)
+                        output.insert(cnt, directive)
+                        cnt += 1
 
-                    factor *= 2
+                        factor *= 2
 
             elif action_point_type == "array":
                 array_name = parts[2]
@@ -92,15 +93,15 @@ class Preprocessor():
                     array_dim = parts[i]
                     size = int(parts[i + 1])
 
-                    if size < 1024:
+                    if size < 128: # 1024
                         directive = "#pragma HLS array_partition variable=" + array_name + " complete dim=" + array_dim
                         output.insert(cnt, directive)
                         cnt += 1
 
                     for t in ['block', 'cyclic']:
                         max_factor = 0
-                        if size > 1024:
-                            max_factor = 1024
+                        if size > 128: # 1024
+                            max_factor = 128 # 1024
                         else:
                             max_factor = size / 2 if (size % 2 == 0) else (size / 2) - 1
 
