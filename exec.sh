@@ -57,9 +57,9 @@ run_func() {
     # Alveo U50 Data Center Accelerator Card (xcu50-fsvh2104-2-e)
     # Alveo U200 Data Center Accelerator Card (xcu200-fsgd2104-2-e)
 
-    for DEVICE_ID in "xczu7ev-ffvc1156-2-e": # "xczu7ev-ffvc1156-2-e xcu200-fsgd2104-2-e"
+    for DEVICE_ID in xczu7ev-ffvc1156-2-e; # xczu7ev-ffvc1156-2-e xcu200-fsgd2104-2-e
     do
-        for CLK_PERIOD in "10 5": # "10 5 3.33"
+        for CLK_PERIOD in 10 5; # 10 5 3.33
         do
             DB_NAME=${APP}_${DEVICE_ID}_${CLK_PERIOD}
 
@@ -101,7 +101,7 @@ clean_func() {
 
 help() {
 
-        echo "Usage: ./driver.sh [MODE]"
+        echo "Usage: ./exec.sh [MODE]"
     echo " MODE:"
     echo "      run [APPLICATION] [SRC_EXTENSION] 	Start the Genetic Algorithm based Design Space Exploration for the given application"
     echo "      kill                                Kill all the Vitis HLS 2021.1 processes for the current user"
