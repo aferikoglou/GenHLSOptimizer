@@ -63,7 +63,9 @@ run_func() {
         do
             DB_NAME=${APP}_${DEVICE_ID}_${CLK_PERIOD}
 
+            echo ""
             echo "DESIGN SPACE EXPLORATION FOR "$APP" FOR DEVICE WITH ID "$DEVICE_ID" AND TARGET CLOCK PERIOD "$CLK_PERIOD" USEC"
+            echo ""
 
             python3 automatic_optimizer.py --INPUT_SOURCE_PATH $INPUT_SOURCE_PATH --INPUT_SOURCE_INFO_PATH $INPUT_SOURCE_INFO_PATH --DB_NAME $DB_NAME --SRC_EXTENSION $SRC_EXTENSION --DEVICE_ID $DEVICE_ID --CLK_PERIOD $CLK_PERIOD
         done

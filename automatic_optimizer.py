@@ -44,7 +44,7 @@ parser.add_argument('--OPERATOR_CONFIG_PATH', type=str, default="./operator_conf
 parser.add_argument('--THREADS', type=int, default=20, help='The number of used threads.')
 parser.add_argument('--TIMEOUT', type=int, default=3600, help='Vitis HLS timeout in seconds.')
 parser.add_argument('--DEVICE_ID', type=str, default="xczu7ev-ffvc1156-2-e", help='The target FPGA device id. (default: MPSoC ZCU104)')
-parser.add_argument('--CLK_PERIOD', type=str, default="3.33", help='The target FPGA clock period. (e.g., 3.33 and 10)')
+parser.add_argument('--CLK_PERIOD', type=str, default="3.33", help='The target FPGA clock period. (default: 3.33)')
 parser.add_argument('--GET_PO_KERNELS', type=str2bool, default=False, help='Defines whether the optimizer produces the Pareto optimal kernel source codes.')
 
 args = parser.parse_args()
@@ -96,7 +96,7 @@ problem = HLSDirectiveOptimizationProblem(
     db,
     DEVICE_ID, 
     CLOCK_PERIOD, 
-    TIMEOUT, 
+    TIMEOUT,
     runner=pool.starmap, func_eval=starmap_parallelized_eval
 )
 

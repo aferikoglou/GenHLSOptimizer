@@ -69,7 +69,8 @@ class HLSDirectiveOptimizationProblem(ElementwiseProblem):
             outFile.write("""create_clock -period """ + clock_period + """ -name default""" + '\n')
 
             if not(vitis_opts):
-                outFile.write("""config_array_partition -complete_threshold 0 -throughput_driven off""" + '\n')
+                # outFile.write("""config_array_partition -auto_partition_threshold 0 -auto_promotion_threshold 0""" + '\n') # Vitis HLS 2020.2
+                outFile.write("""config_array_partition -complete_threshold 0 -throughput_driven off""" + '\n') # Vitis HLS 2021.1
                 outFile.write("""config_compile -pipeline_loops 0""" + '\n')
 
             outFile.write("""csynth_design""" + '\n')
