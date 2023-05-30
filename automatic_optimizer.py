@@ -72,7 +72,7 @@ preprocessor = Preprocessor(INPUT_SOURCE_INFO_PATH)
 # Create/Open application database #
 ####################################
 
-DATABASES_DIR = './databases_NEW'
+DATABASES_DIR = './databases'
 command = 'mkdir -p ' + DATABASES_DIR
 os.system(command)
 

@@ -57,11 +57,13 @@ run_func() {
     # Alveo U50 Data Center Accelerator Card (xcu50-fsvh2104-2-e)
     # Alveo U200 Data Center Accelerator Card (xcu200-fsgd2104-2-e)
 
-    for DEVICE_ID in xczu7ev-ffvc1156-2-e: # xczu7ev-ffvc1156-2-e xcu200-fsgd2104-2-e
+    for DEVICE_ID in "xczu7ev-ffvc1156-2-e": # "xczu7ev-ffvc1156-2-e xcu200-fsgd2104-2-e"
     do
-        for CLK_PERIOD in 10 5: # 10 5 3.33
+        for CLK_PERIOD in "10 5": # "10 5 3.33"
         do
             DB_NAME=${APP}_${DEVICE_ID}_${CLK_PERIOD}
+
+            echo "DESIGN SPACE EXPLORATION FOR "$APP" FOR DEVICE WITH ID "$DEVICE_ID" AND TARGET CLOCK PERIOD "$CLK_PERIOD" USEC"
 
             python3 automatic_optimizer.py --INPUT_SOURCE_PATH $INPUT_SOURCE_PATH --INPUT_SOURCE_INFO_PATH $INPUT_SOURCE_INFO_PATH --DB_NAME $DB_NAME --SRC_EXTENSION $SRC_EXTENSION --DEVICE_ID $DEVICE_ID --CLK_PERIOD $CLK_PERIOD
         done
@@ -101,9 +103,9 @@ help() {
 
         echo "Usage: ./driver.sh [MODE]"
     echo " MODE:"
-    echo "      run [APPLICATION][SRC_EXTENSION] 	Start the Genetic Algorithm based Design Space Exploration for the given application"
-    echo "      kill			Kill all the Vitis HLS 2021.1 processes for the current user"
-    echo "      clean			Delete the output files"
+    echo "      run [APPLICATION] [SRC_EXTENSION] 	Start the Genetic Algorithm based Design Space Exploration for the given application"
+    echo "      kill                                Kill all the Vitis HLS 2021.1 processes for the current user"
+    echo "      clean                               Delete the output files"
 
 }
 
