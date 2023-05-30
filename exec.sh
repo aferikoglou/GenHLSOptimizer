@@ -68,6 +68,8 @@ run_func() {
             echo ""
 
             python3 automatic_optimizer.py --INPUT_SOURCE_PATH $INPUT_SOURCE_PATH --INPUT_SOURCE_INFO_PATH $INPUT_SOURCE_INFO_PATH --DB_NAME $DB_NAME --SRC_EXTENSION $SRC_EXTENSION --DEVICE_ID $DEVICE_ID --CLK_PERIOD $CLK_PERIOD
+        
+            clean_func
         done
     done
 
@@ -98,7 +100,7 @@ clean_func() {
     rm *.h
     rm kernel_info.txt
 
-    rm *.json
+    # rm *.json
 }
 
 help() {
