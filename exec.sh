@@ -36,10 +36,17 @@ run_func() {
     # Alveo U50 Data Center Accelerator Card (xcu50-fsvh2104-2-e)
     # Alveo U200 Data Center Accelerator Card (xcu200-fsgd2104-2-e)
 
-    for DEVICE_ID in xcu200-fsgd2104-2-e; # xczu7ev-ffvc1156-2-e xcu200-fsgd2104-2-e
+    for DEVICE_ID in xczu7ev-ffvc1156-2-e xcu200-fsgd2104-2-e; # xczu7ev-ffvc1156-2-e xcu200-fsgd2104-2-e
     do
         for CLK_PERIOD in 10 5 3.33; # 10 5 3.33
         do
+
+            if [[ $DEVICE_ID == 'xczu7ev-ffvc1156-2-e' ] && [ $CLK_PERIOD == '3.33']]
+            then
+                echo "Skip database formation for ZCU104@300MHz"
+                continue
+            fi
+
             check_memory &
             BACKGROUND_PROC_PID=$!
             echo "check_memory background proc PID "$BACKGROUND_PROC_PID
