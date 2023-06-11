@@ -41,9 +41,10 @@ run_func() {
         for CLK_PERIOD in 10 5 3.33; # 10 5 3.33
         do
 
-            if [[ $DEVICE_ID == 'xczu7ev-ffvc1156-2-e' ] && [ $CLK_PERIOD == '3.33']]
+            if [[ "$DEVICE_ID" = "xczu7ev-ffvc1156-2-e" ]] && [[ "$CLK_PERIOD" = "3.33" ]];
             then
-                echo "Skip database formation for ZCU104@300MHz"
+                echo "Skip database formation for ZCU104 @300MHz"
+
                 continue
             fi
 
