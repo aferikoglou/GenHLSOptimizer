@@ -1,54 +1,54 @@
-# HLS Directives DSE based on Genetic Algorithms
+# HLS Directives Design Space Exploration Using Genetic Algorithms
 
-In this project we created an optimizer able to automatically perform High-Level Synthesis directives Design Space Exploration leveraging genetic algorithms. 
+This project features an optimizer designed to automatically conduct High-Level Synthesis (HLS) directives Design Space Exploration (DSE) through genetic algorithms.
 
-**Supported HLS Directives**:
-* Loop Pipeline
-* Loop Unroll
-* Array Partition
+**Supported HLS Directives:**
+- Loop Pipeline
+- Loop Unroll
+- Array Partition
 
-**Optimizer Inputs**:
-1. synthesizable C/C++ source code annotated with labels in each action point i.e. array, loop (1st action point will be annotated with label L1, 2nd with label L2 etc.)
-2. kernel_info.txt that provides **a)** the top level function name and **b)** information for each action point. For loop action points users have to provide the loop tripcount and for array action points users have to provide its name as well as the size of each array dimension.
+**Optimizer Inputs:**
+1. Synthesizable C/C++ source code with labels at each action point (e.g., arrays, loops). Action points are labeled sequentially (L1, L2, etc.).
+2. `kernel_info.txt` that includes:
+   - **a)** The top-level function name
+   - **b)** Details for each action point, including loop trip counts for loop action points and array names with dimension sizes for array action points.
 
-**Optimizer Outputs**:
-1. the Pareto optimal kernel source codes
-2. info.csv that describes the Pareto optimal kernel source code tradeoffs
-3. a database with the examined directives configurations and their corresponding latencies and resources (BRAM%, DSP%, LUT% and FF%)
-4. APP_NAME.json that provides statistics for the database
+**Optimizer Outputs:**
+1. Pareto-optimal kernel source codes
+2. `info.csv` detailing trade-offs among Pareto-optimal kernel source codes
+3. A database containing examined directive configurations with their respective latencies and resource usage (BRAM%, DSP%, LUT%, and FF%)
+4. `APP_NAME.json` providing statistics for the database
 
-In the dataset and databases directory sample inputs and outputs can be found.
+Sample inputs and outputs can be found in the `dataset` and `databases` directories.
 
 ## Getting Started
 
-These instructions will get you a copy of the project on your local machine.
+Follow these instructions to get a copy of the project on your local machine.
 
 ### Prerequisites
 
-This project was tested on Ubuntu 18.04.6 LTS (GNU/Linux 5.4.0-122-generic x86_64) with Python 3.6.9 and Vitis 2021.1 suite installed. 
+This project has been tested on Ubuntu 18.04.6 LTS with Python 3.6.9 and Vitis 2021.1 suite. Additionally, the following libraries are required:
+- [pymoo](https://pypi.org/project/pymoo/) (v0.5.0)
+- [sqlitedict](https://pypi.org/project/sqldict/) (v2.0.0)
+- [psutil](https://pypi.org/project/psutil/) (v5.9.0)
 
-In addition, the following libraries are needed:
-* [pymoo](https://pypi.org/project/pymoo/) (v0.5.0)
-* [sqlitedict](https://pypi.org/project/sqldict/) (v2.0.0)
-* [psutil](https://pypi.org/project/psutil/) (v5.9.0)
-
-which can be simply installed using the following command.
+Install these dependencies using:
 
 ```bash
 python3 -m pip install -r requirements.txt
 ```
 
-### Run
+### Running the Project
 
-After downloading the software in the *Prerequisites* section you can clone this repository on your local machine.
+After installing the necessary software from the *Prerequisites* section, clone this repository to your local machine.
 
-**Start the HLS directives Design Space Exploration**
+**Execute the HLS Directives Design Space Exploration:**
 
 ```bash
 ./exec.sh run APP_NAME EXTENSION
 ```
 
-**Example**
+**Example:**
 
 ```bash
 ./exec.sh run rodinia-knn-1-tiling .cpp
