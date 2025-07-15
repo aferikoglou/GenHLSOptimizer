@@ -1,4 +1,0 @@
-gemm
-L1,loop,64
-L2,loop,64
-L3,loop,64

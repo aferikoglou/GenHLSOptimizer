@@ -1,3 +1,0 @@
-workload
-L1,loop,17
-L2,loop,65537

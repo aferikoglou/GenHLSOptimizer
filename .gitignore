@@ -7,7 +7,4 @@
 *.log
 kernel_info.txt
 modules/__pycache__/
-optimized/
 GENETIC_DSE_*/
-database_json/
-databases/

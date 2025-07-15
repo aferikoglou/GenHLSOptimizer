@@ -1,2 +1,0 @@
-InitiationInterval
-L1,loop,1024000

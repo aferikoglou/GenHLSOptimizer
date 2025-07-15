@@ -1,7 +1,18 @@
 import numpy as np
 
 class Preprocessor():
+    """
+    Parses input source information and generates directive search spaces 
+    for high-level synthesis (HLS) optimization.
+    """
+
     def __init__(self, input_src_info_path):
+        """
+        Initialize the Preprocessor with the path to the input source info file.
+
+        Args:
+            input_src_info_path (str): Path to the file containing source-level HLS metadata.
+        """
         self.input_src_info_path = input_src_info_path
 
         self.n_var = -1
@@ -11,12 +22,19 @@ class Preprocessor():
         self.xu = None
 
     def _get_var_domains(self, directives):
-        # xl generation
+        """
+        Derives the lower and upper bounds (xl, xu) for each variable 
+        based on the number of available directives.
+
+        Args:
+            directives (list): List of directive options for each design variable.
+        """
         directives_len = len(directives)
 
+        # Lower bounds are zero for all variables
         self.xl = np.zeros(directives_len, dtype=int)
 
-        # xu generation
+        # Upper bounds depend on the number of options for each directive
         xu_list = []
 
         cnt = 0
@@ -28,6 +46,19 @@ class Preprocessor():
         self.xu = np.asarray(xu_list)
         
     def preprocess(self):
+        """
+        Main preprocessing method that parses the source info file,
+        generates optimization directives per action point (loops/arrays),
+        and computes domain boundaries.
+
+        Returns:
+            tuple: (n_var, xl, xu, top_level_func, directives)
+                - n_var (int): Number of variables (action points).
+                - xl (np.array): Lower bounds for each variable.
+                - xu (np.array): Upper bounds for each variable.
+                - top_level_func (str): Name of the top-level function.
+                - directives (list): List of lists containing directive options for each action point.
+        """
         f = open(self.input_src_info_path, 'r')
         lines = f.readlines()
 
@@ -48,10 +79,6 @@ class Preprocessor():
             cnt = 0
             if action_point_type == "loop":
                 loop_iter = int(parts[2])
-
-                ############################
-                # Generate loop directives #
-                ############################
 
                 # PIPELINE
                 directive = "#pragma HLS pipeline"
@@ -85,23 +112,19 @@ class Preprocessor():
             elif action_point_type == "array":
                 array_name = parts[2]
 
-                #############################
-                # Generate array directives #
-                #############################
-
                 for i in range(3, parts_len, 2):
                     array_dim = parts[i]
                     size = int(parts[i + 1])
 
-                    if size < 128: # 1024
+                    if size < 128:  # apply complete partition for small arrays
                         directive = "#pragma HLS array_partition variable=" + array_name + " complete dim=" + array_dim
                         output.insert(cnt, directive)
                         cnt += 1
 
                     for t in ['block', 'cyclic']:
                         max_factor = 0
-                        if size > 128: # 1024
-                            max_factor = 128 # 1024
+                        if size > 128:
+                            max_factor = 128
                         else:
                             max_factor = size / 2 if (size % 2 == 0) else (size / 2) - 1
 
