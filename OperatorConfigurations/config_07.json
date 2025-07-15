@@ -1,0 +1,1 @@
+{"sampling": "int_lhs", "selection": "random", "crossover": "int_sbx", "mutation": "int_pm"}

@@ -1,10 +1,1 @@
-*.cpp
-*.cl
-*.c
-*.h
-*.json
-*.tcl
-*.log
-kernel_info.txt
 modules/__pycache__/
-GENETIC_DSE_*/

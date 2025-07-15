@@ -234,4 +234,13 @@ Synthesis success total percentage = 100.000000 (24)
 - Synthesis feasible percentage = 100.000000 (24)
 - Synthesis non feasible percentage = 0.000000 (0)
 
+...
+
+```
+## Publication
+
+If you find our project useful, please consider citing our paper:
+
+```
+
 ```

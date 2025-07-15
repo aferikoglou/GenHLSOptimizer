@@ -50,7 +50,7 @@ parser.add_argument('--INPUT_SOURCE_INFO_PATH', type=str, required=True, help='T
 parser.add_argument('--SRC_EXTENSION', type=str, default=".cpp", help='The source code file extension.')
 parser.add_argument('--DB_NAME', type=str, required=True, help='The name of the used database.')
 parser.add_argument('--GENERATIONS', type=int, default=24, help='The number of GA generations.')
-parser.add_argument('--OPERATOR_CONFIG_PATH', type=str, default="./Operator_Configurations/config_01.json", help='The path to the JSON file that contains the genetic algorithm operator configuration.')
+parser.add_argument('--OPERATOR_CONFIG_PATH', type=str, default="./OperatorConfigurations/config_01.json", help='The path to the JSON file that contains the genetic algorithm operator configuration.')
 parser.add_argument('--THREADS', type=int, default=20, help='The number of used threads.')
 parser.add_argument('--TIMEOUT', type=int, default=3600, help='Vitis HLS timeout in seconds.')
 parser.add_argument('--DEVICE_ID', type=str, default="xczu7ev-ffvc1156-2-e", help='The target FPGA device id. (default: MPSoC ZCU104)')
